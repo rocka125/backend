@@ -1,26 +1,30 @@
-version: '3'
-services:
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: registro
-    depends_on:
-      - mysql
+version: '3.8'
 
-  mysql:
-    image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: registro
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "3306:3306"
+      - "5000:5000"
+    environment:
+      - DB_HOST=db
+      - DB_USER=root
+      - DB_PASSWORD=password
+    depends_on:
+      - db
+    restart: unless-stopped
+  
+  db:
+    image: mysql:8.0
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: mydatabase
     volumes:
-      - mysql-data:/var/lib/mysql
+      - db-data:/var/lib/mysql
+    restart: unless-stopped
 
 volumes:
-  mysql-data:
+  db-data:
