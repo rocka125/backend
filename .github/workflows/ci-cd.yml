@@ -37,7 +37,7 @@ jobs:
           # Subir la imagen a DockerHub (si tienes un registro configurado en tu docker-compose.yml)
           docker-compose push
 
-      # Paso 5: Limpiar contenedores para evitar que queden corriendo innecesariamente
+      # Paso 5: Limpiamos contenedores para evitar que queden corriendo innecesariamente
       - name: Clean up Docker containers
         run: |
           docker-compose down
