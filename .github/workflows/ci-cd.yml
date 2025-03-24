@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 name: CI/CD Backend
-=======
-name: Deploy to Docker
-
->>>>>>> 65c068652598bdf7334581405f3f0f54e48a4963
 on:
   push:
     branches:
@@ -12,18 +7,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-<<<<<<< HEAD
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
         
-=======
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v2
-
->>>>>>> 65c068652598bdf7334581405f3f0f54e48a4963
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
@@ -36,8 +23,5 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker-compose build
-<<<<<<< HEAD
           docker-compose up -d
-=======
->>>>>>> 65c068652598bdf7334581405f3f0f54e48a4963
           docker-compose push

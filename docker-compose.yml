@@ -1,13 +1,9 @@
 version: '3.8'
-
 services:
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    build: ./backend
     ports:
       - "3000:3000"
-      - "5000:5000"
     environment:
       DB_HOST: mysql
       DB_USER: root
@@ -23,22 +19,8 @@ services:
       MYSQL_DATABASE: registro
     ports:
       - "3306:3306"
-      - "3307:3306"
-    restart: unless-stopped
-
-  db:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-      - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: mydatabase
     volumes:
       - mysql-data:/var/lib/mysql
-      - db-data:/var/lib/mysql
-    restart: unless-stopped
 
 volumes:
   mysql-data:
-  db-data:
