@@ -3,30 +3,41 @@ name: CI/CD Backend
 on:
   push:
     branches:
-      - main  
+      - main  # Cambia esto si quieres que se ejecute en otra rama
 
 jobs:
   build:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  # Especificamos que el trabajo se ejecutará en un entorno Ubuntu
 
     steps:
+      # Paso 1: Obtener el código del repositorio
       - name: Checkout Code
-        uses: actions/checkout@v2  
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2  
+        uses: actions/checkout@v2
 
+      # Paso 2: Configurar Docker Buildx para construir las imágenes de Docker
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Paso 3: Iniciar sesión en DockerHub utilizando los secretos configurados
+      - name: Login to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Paso 4: Construir y subir la imagen Docker utilizando docker-compose
       - name: Build and Push Docker Image
         run: |
-          # Construir la imagen con docker-compose
+          # Construir la imagen de Docker con docker-compose
           docker-compose build
 
           # Levantar los contenedores en segundo plano
           docker-compose up -d
 
-          # Empujar la imagen a un repositorio (si es necesario, como Docker Hub)
+          # Subir la imagen a DockerHub (si tienes un registro configurado en tu docker-compose.yml)
           docker-compose push
-          
-      - name: Clean up
+
+      # Paso 5: Limpiar contenedores para evitar que queden corriendo innecesariamente
+      - name: Clean up Docker containers
         run: |
-          # Detener los contenedores (opcional, si solo quieres realizar el build)
           docker-compose down
