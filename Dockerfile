@@ -4,15 +4,15 @@ FROM node:20
 # Establece el directorio de trabajo
 WORKDIR /app
 
-# Copia los archivos necesarios
+# Copia los archivos del proyecto
 COPY package*.json ./
 COPY . .
 
 # Instala las dependencias
 RUN npm install
 
-# Expone el puerto en el que se ejecutará el backend
+# Expone el puerto 3000
 EXPOSE 3000
 
-# Comando para ejecutar el servidor
+# Ejecuta el servidor
 CMD ["npm", "start"]
