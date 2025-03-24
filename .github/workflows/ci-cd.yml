@@ -3,20 +3,31 @@ name: CI/CD Backend
 on:
   push:
     branches:
-      - main
+      - main  # Cambia esto según la rama que quieras que dispare el flujo
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    
+    runs-on: ubuntu-latest  # Utilizamos una máquina Ubuntu para ejecutar el trabajo
+
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v2
-        
-      - name: Configurar Docker
-        uses: docker/setup-buildx-action@v2
-      
-      - name: Build y Push Docker
+      - name: Checkout Code
+        uses: actions/checkout@v2  # Clonamos el código del repositorio
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2  # Configuramos Docker Buildx para la construcción de imágenes
+
+      - name: Build and Push Docker Image
         run: |
+          # Construir la imagen con docker-compose
           docker-compose build
+
+          # Levantar los contenedores en segundo plano
           docker-compose up -d
+
+          # Empujar la imagen a un repositorio (si es necesario, como Docker Hub)
+          docker-compose push
+          
+      - name: Clean up
+        run: |
+          # Detener los contenedores (opcional, si solo quieres realizar el build)
+          docker-compose down
