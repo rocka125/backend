@@ -1,26 +1,38 @@
 version: '3.8'
+
 services:
-  backend:
-    build: ./backend
-    ports:
-      - "3000:3000"
-    environment:
-      DB_HOST: mysql
-      DB_USER: root
-      DB_PASSWORD: root
-      DB_NAME: registro
-    depends_on:
-      - mysql
 
   mysql:
-    image: mysql:8
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: registro
+      MYSQL_ROOT_PASSWORD: 777122
+      MYSQL_DATABASE: flutter_db
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: 123456
     ports:
-      - "3306:3306"
+      - "3307:3306"  # Mapeo del puerto en el host
     volumes:
-      - mysql-data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
+
+
+  backend:
+    build: .
+    container_name: backend
+    restart: always
+    depends_on:
+      - mysql
+    ports:
+      - "3001:3000"
+    environment:
+      DB_HOST: mysql
+      DB_USER: usuario
+      DB_PASSWORD: 123456
+      DB_NAME: flutter_db
+    volumes:
+      - .:/app
+      - /app/node_modules
 
 volumes:
-  mysql-data:
+  mysql_data:
