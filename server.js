@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
@@ -12,11 +10,11 @@ app.use(cors());
 app.use(express.json()); // Para recibir datos en formato JSON
 
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,     // Usando la variable de entorno DB_HOST
-    user: process.env.DB_USER,     // Usando la variable de entorno DB_USER
-    password: process.env.DB_PASSWORD, // Usando la variable de entorno DB_PASSWORD
-    database: process.env.DB_NAME, // Usando la variable de entorno DB_NAME
-    port: process.env.DB_PORT  
+    host: 'localhost',  // Se mantiene como localhost ya que el contenedor está en tu máquina local
+    user: 'root',
+    password: '777122',
+    database: 'flutter_db',
+    port: 3307  // Cambiado al puerto 3307
 });
 
 db.connect((err) => {
