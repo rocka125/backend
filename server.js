@@ -1,22 +1,20 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
-require('dotenv').config(); // Cargar variables de entorno
 
 const app = express();
-const port = process.env.PORT || 3000; // Usando la variable de entorno PORT
+const port = process.env.PORT || 3000;  // Usando la variable de entorno PORT
 
 // Configurar CORS
 app.use(cors());
 app.use(express.json()); // Para recibir datos en formato JSON
 
-// Crear conexión a MySQL en Railway
 const db = mysql.createConnection({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
-    port: process.env.DB_PORT
+    host: 'localhost',  // Se mantiene como localhost ya que el contenedor está en tu máquina local
+    user: 'root',
+    password: '777122',
+    database: 'flutter_db',
+    port: 3307  // Cambiado al puerto 3307
 });
 
 db.connect((err) => {
@@ -24,12 +22,12 @@ db.connect((err) => {
         console.error('❌ Error conectando a MySQL:', err);
         return;
     }
-    console.log('📦 Conectado a MySQL en Railway ✅');
+    console.log('📦 Conectado a MySQL ✅');
 });
 
 // Ruta de prueba
 app.get('/', (req, res) => {
-    res.send('🚀 Servidor funcionando correctamente en Railway');
+    res.send('🚀 Servidor funcionando correctamente');
 });
 
 // Ruta para Login
